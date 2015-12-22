@@ -3,15 +3,16 @@ import ghParse from 'parse-github-url';
 import gunzipMaybe from 'gunzip-maybe';
 import meow from 'meow';
 import path from 'path';
+import pkg from '../../package.json';
 import Promise, {coroutine, promisify} from 'bluebird';
 import request from 'request';
 import sander from 'sander';
+import spawn from 'cross-spawn';
 import successSymbol from 'success-symbol';
 import tar from 'tar-fs';
 import updateNotifier from 'update-notifier';
+import {execSync} from 'child_process';
 import {grey, cyan, red, yellow, blue, green, bgGreen} from 'chalk';
-import {spawn, execSync} from 'child_process';
-import pkg from '../../package.json';
 
 const rimraf = promisify(_rimraf);
 
