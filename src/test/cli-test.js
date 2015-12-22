@@ -4,7 +4,7 @@ import assert from 'assert';
 import fs from 'fs';
 import path from 'path';
 import rimraf from 'rimraf';
-import {spawn} from 'child_process';
+import spawn from 'cross-spawn';
 
 const cliPath = path.resolve(__dirname, '..', '..', 'cli.js');
 const tmpDir = path.resolve(__dirname, '..', '..', 'tmp');
