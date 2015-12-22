@@ -1,0 +1,58 @@
+{
+  "name": "startfrom",
+  "description": "Use any Github repo as a template for a new project.",
+  "version": "0.0.0",
+  "author": "Callum Locke",
+  "babel": {
+    "presets": [
+      "es2015-node4"
+    ]
+  },
+  "bin": {
+    "startfrom": "cli.js"
+  },
+  "dependencies": {
+    "bluebird": "^3.1.1",
+    "chalk": "^1.1.1",
+    "gunzip-maybe": "^1.2.1",
+    "meow": "^3.6.0",
+    "parse-github-url": "^0.2.1",
+    "request": "^2.67.0",
+    "sander": "^0.4.0",
+    "success-symbol": "^0.1.0",
+    "tar-fs": "^1.9.0",
+    "update-notifier": "^0.6.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.3.17",
+    "babel-eslint": "^5.0.0-beta6",
+    "babel-preset-es2015-node4": "^2.0.2",
+    "eslint": "^1.10.3",
+    "eslint-config-trip": "^1.0.1",
+    "eslint-plugin-babel": "^3.0.0",
+    "mocha": "^2.3.4",
+    "rimraf": "^2.4.4",
+    "source-map-support": "^0.4.0"
+  },
+  "engines": {
+    "node": ">=4",
+    "npm": ">=2"
+  },
+  "eslintConfig": {
+    "extends": "trip"
+  },
+  "files": [
+    "dist/lib",
+    "src/lib"
+  ],
+  "license": "BSD-3-Clause",
+  "main": "index.js",
+  "repository": "callumlocke/startfrom",
+  "scripts": {
+    "build": "rimraf dist && babel src --out-dir dist --source-maps",
+    "buildwatch": "rimraf dist && babel src --out-dir dist --watch --source-maps",
+    "prepublish": "eslint . && npm run build",
+    "test": "mocha dist/test",
+    "testwatch": "cd dist && mocha --watch"
+  }
+}
