@@ -2,11 +2,10 @@
 
 [![NPM version][npm-image]][npm-url] [![Linux Build Status][travis-image]][travis-url] [![Windows Build Status][appveyor-image]][appveyor-url] [![Dependency Status][depstat-image]][depstat-url] [![devDependency Status][devdepstat-image]][devdepstat-url] [![peerDependency Status][peerdepstat-image]][peerdepstat-url]
 
+A little tool to download a snapshot of a Github repo and use it as a starting point for a new project. Useful if you consume a lot of [boilerplates and starter kits].
 
-Quick way to download a snapshot of a Github repo and use it as a starting point for a new repo. Useful if you consume a lot of [boilerplates and starter kits].
-
-```
-npm install -g startfrom
+```sh
+$ npm install -g startfrom
 ```
 
 ![screenshot]
@@ -15,13 +14,13 @@ npm install -g startfrom
 
 Enter an empty directory then run something like this:
 
-```
-startfrom https://github.com/google/web-starter-kit
+```sh
+$ startfrom https://github.com/google/web-starter-kit
 ```
 
 What that does:
 
-1. downloads a snapshot of the specified repo ([Web Starter Kit] in this case)
+1. downloads a snapshot of the specified repo (Google's [Web Starter Kit] in this case)
 2. initialises your directory as a git repo and commits the initial files
 3. runs `npm install` for you (only if there's a package.json present)
 
@@ -29,20 +28,20 @@ What that does:
 
 You can use Github's user/repo shorthand:
 
-```
-startfrom google/web-starter-kit
+```sh
+$ startfrom google/web-starter-kit
 ```
 
 You can also use a `#` to specify a branch/commit/tag other than 'master':
 
-```
-startfrom mxstbr/react-boilerplate#v2.5.0
+```sh
+$ startfrom mxstbr/react-boilerplate#v2.5.0
 ```
 
 Some boilerplate repos expect you to use their build artifacts as your starting point, rather than the root of their repository. [HTML5 Boilerplate](https://github.com/h5bp/html5-boilerplate) is a good example – you're supposed to use its `dist` subdirectory as your starting point. You can do this by passing a second argument:
 
-```
-startfrom h5bp/html5-boilerplate dist
+```sh
+$ startfrom h5bp/html5-boilerplate dist
 ```
 
 [boilerplates and starter kits]: https://github.com/melvin0008/awesome-projects-boilerplates
