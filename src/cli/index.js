@@ -7,21 +7,22 @@ import pkg from '../../package.json';
 import Promise, {coroutine, promisify} from 'bluebird';
 import request from 'request';
 import sander from 'sander';
+import shellEscape from 'shell-escape';
 import spawn from 'cross-spawn';
 import successSymbol from 'success-symbol';
 import tar from 'tar-fs';
 import updateNotifier from 'update-notifier';
 import {execSync} from 'child_process';
-import {grey, cyan, red, yellow, blue, green, bgGreen} from 'chalk';
+import {grey, cyan, red, yellow, green, bgGreen} from 'chalk';
 
 const rimraf = promisify(_rimraf);
 
 const helpText = (
 `
-      1. Downloads a snapshot of the specified repo to the current working
+      1. Downloads a snapshot of the specified repo to your current working
          directory.
-      2. Does ${cyan('git init')} and ${cyan('git commit')}.
-      3. If there's a package.json, does ${cyan('npm install')}.
+      2. Does ${cyan('git init')}, ${cyan('git add .')} and ${cyan('git commit')}.
+      3. If there's a package.json, runs ${cyan('npm install')}.
 
     ____________________________________________________________________________
 
@@ -29,9 +30,10 @@ const helpText = (
       ${grey('$')} startfrom ${cyan('user')}/${cyan('repo')}${grey('[')}#${cyan('ref')}${grey(']')} ${grey('[')}${cyan('subdirectory')}${grey(']')}
 
     Examples:
-      ${grey('$')} startfrom google/web-starter-kit                ${grey('user/repo')}
-      ${grey('$')} startfrom google/web-starter-kit#v0.5.4         ${grey('user/repo#ref')}
-      ${grey('$')} startfrom h5bp/html5-boilerplate#v5.0.0 dist    ${grey('user/repo#ref subdir')}
+      ${grey('$')} startfrom google/web-starter-kit
+      ${grey('$')} startfrom google/web-starter-kit#v0.5.4
+      ${grey('$')} startfrom h5bp/html5-boilerplate#v5.0.0 dist
+      ${grey('$')} startfrom https://github.com/mxstbr/react-boilerplate
 `
 );
 
@@ -44,13 +46,11 @@ const subdirectory = cli.input[1] || '.';
 const notifier = updateNotifier({pkg});
 notifier.notify();
 
-function run(command) {
-  const [name, ...args] = command.split(' ');
-
+function run(...args) {
   return new Promise((resolve, reject) => {
-    console.log(blue(' > ') + command);
+    console.log(grey(' > ') + shellEscape(args));
 
-    const child = spawn(name, args, {
+    const child = spawn(args.shift(), args, {
       stdio: 'inherit',
       cwd: dir,
     });
@@ -127,15 +127,15 @@ coroutine(function *() {
 
   // commit everything...
   say(`Committing initial state...`);
-  if (!hasGit) yield run('git init');
-  yield run('git add .');
-  yield run('git commit -m startfrom');
+  if (!hasGit) yield run('git', 'init');
+  yield run('git', 'add', '.');
+  yield run('git', 'commit', '-m', 'startfrom ' + shellEscape(process.argv.slice(2)));
   tick();
 
   // run npm install, if appropriate
   if (yield sander.exists(dir, 'package.json')) {
     say(`Running npm install for you (this might take a while)...`);
-    yield run('npm install');
+    yield run('npm', 'install');
     tick();
   }
 
