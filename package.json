@@ -45,7 +45,8 @@
   },
   "files": [
     "dist/lib",
-    "src/lib"
+    "src/lib",
+    "cli.js"
   ],
   "license": "BSD-3-Clause",
   "main": "index.js",
