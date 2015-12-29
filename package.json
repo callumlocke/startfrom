@@ -44,8 +44,8 @@
     "extends": "trip"
   },
   "files": [
-    "dist/lib",
-    "src/lib",
+    "dist/cli",
+    "src/cli",
     "cli.js"
   ],
   "license": "BSD-3-Clause",
