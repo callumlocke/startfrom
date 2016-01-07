@@ -1,3 +1,8 @@
 machine:
   node:
     version: 5
+
+test:
+  pre:
+    pre:
+      - 'git config --global user.email "test@example.com" && git config --global user.name "Test User"'
