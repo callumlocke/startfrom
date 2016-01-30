@@ -17,29 +17,37 @@ import {grey, cyan, red, yellow, green, bgGreen} from 'chalk';
 
 const rimraf = promisify(_rimraf);
 
-const helpText = (
-`
-      1. Downloads a snapshot of the specified repo to your current working
-         directory.
-      2. Does ${cyan('git init')}, ${cyan('git add .')} and ${cyan('git commit')}.
-      3. If there's a package.json, runs ${cyan('npm install')}.
+const prompt = grey('>');
 
-    ____________________________________________________________________________
+const helpText = (`
+    1. Downloads a snapshot of the specified repo to your current
+       working directory
+    2. Does ${cyan('git init')}, ${cyan('git add .')} and ${cyan('git commit')}
+    3. If there's a package.json, runs ${cyan('npm install')}
+
+    ${grey('──────────────────────────────────────────────────────────────────────')}
 
     Usage
-      ${grey('$')} startfrom ${cyan('user')}/${cyan('repo')}${grey('[')}#${cyan('ref')}${grey(']')} ${grey('[')}${cyan('subdirectory')}${grey(']')}
+      ${prompt} startfrom ${cyan('user')}/${cyan('repo')}${grey('[')}#${cyan('ref')}${grey(']')} ${grey('[')}${cyan('subdirectory')}${grey(']')}
 
     Examples:
-      ${grey('$')} startfrom google/web-starter-kit
-      ${grey('$')} startfrom google/web-starter-kit#v0.5.4
-      ${grey('$')} startfrom h5bp/html5-boilerplate#v5.0.0 dist
-      ${grey('$')} startfrom https://github.com/mxstbr/react-boilerplate
-`
-);
+      ${prompt} startfrom google/web-starter-kit
+      ${prompt} startfrom google/web-starter-kit#v0.5.4
+      ${prompt} startfrom h5bp/html5-boilerplate#v5.0.0 dist
+      ${prompt} startfrom https://github.com/mxstbr/react-boilerplate
+`);
 
 const cli = meow(helpText);
+
+// if no CLI args, do the same as `startfrom --help`
+if (!cli.input[0]) {
+  console.log(helpText);
+  process.exit(0);
+}
+console.log(ghParse(cli.input[0]));
+
 const dir = process.cwd();
-const {user, repo, branch: ref} = ghParse(cli.input[0]);
+const {owner, name, branch: ref} = ghParse(cli.input[0]);
 const subdirectory = cli.input[1] || '.';
 
 // check for updates
@@ -66,7 +74,7 @@ function run(...args) {
 
 // begin the async sequence
 coroutine(function *() {
-  if (!user || !repo) throw new Error(`Invalid: ${cli.input[0]}`);
+  if (!owner || !name) throw new Error(`Invalid: ${cli.input[0]}`);
 
   console.log('');
 
@@ -100,7 +108,7 @@ coroutine(function *() {
 
   // download whole repo tarball into ./__startfrom_tmp
   yield new Promise((resolve, reject) => {
-    const tarballURL = `https://github.com/${user}/${repo}/archive/${ref}.tar.gz`;
+    const tarballURL = `https://github.com/${owner}/${name}/archive/${ref}.tar.gz`;
     say('Downloading and extracting ' + tarballURL);
 
     request(tarballURL)
@@ -132,7 +140,7 @@ coroutine(function *() {
   yield run('git', 'commit', '-m', 'startfrom ' + shellEscape(process.argv.slice(2)));
   tick();
 
-  // run npm install, if appropriate
+  // run npm install if there's a package.json
   if (yield sander.exists(dir, 'package.json')) {
     say(`Running npm install for you (this might take a while)...`);
     yield run('npm', 'install');

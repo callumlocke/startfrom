@@ -2,47 +2,55 @@
 
 [![NPM version][npm-image]][npm-url] [![Linux Build Status][travis-image]][travis-url] [![Windows Build Status][appveyor-image]][appveyor-url] [![Dependency Status][depstat-image]][depstat-url] [![devDependency Status][devdepstat-image]][devdepstat-url] [![peerDependency Status][peerdepstat-image]][peerdepstat-url]
 
-A little tool to download a snapshot of a Github repo and use it as a starting point for a new project. Useful if you consume a lot of [boilerplates and starter kits].
-
-```sh
-$ npm install -g startfrom
-```
+A little tool to download a snapshot of a Github repo and use it as a starting point for a new project. (Handy if you use a lot of [boilerplates and starter kits].)
 
 ![screenshot]
 
-## Usage
-
-Enter an empty directory then run something like this:
+## Install
 
 ```sh
-$ startfrom https://github.com/google/web-starter-kit
+> npm install -g startfrom
 ```
 
-What that does:
+(Requires Node 4 or higher.)
 
-1. downloads a snapshot of the specified repo (Google's [Web Starter Kit] in this case)
-2. initialises your directory as a git repo and commits the initial files
-3. runs `npm install` for you (only if there's a package.json present)
+## How to use
 
-#### More options
-
-You can use Github's user/repo shorthand:
+Go into an empty directory, then run startfrom with a GitHub repo identifier.  For example:
 
 ```sh
-$ startfrom google/web-starter-kit
+> startfrom google/web-starter-kit
+
+# ...or just paste the whole GitHub URL, if it's easier:
+> startfrom https://github.com/google/web-starter-kit
 ```
 
-You can also use a `#` to specify a branch/commit/tag other than 'master':
+What it does:
+
+1. Downloads a **snapshot** of the specified repo (not including the git history) and extracts it into your current working directory.
+2. Initialises your directory as a new git repo and commits the initial files.
+3. Runs `npm install` for you (if there's a package.json present).
+
+## More options
+
+#### Start from a specific branch/tag/commit
 
 ```sh
-$ startfrom mxstbr/react-boilerplate#v2.5.0
+> startfrom mxstbr/react-boilerplate#v2.5.0
 ```
 
-Some boilerplate repos expect you to use their build artifacts as your starting point, rather than the root of their repository. [HTML5 Boilerplate](https://github.com/h5bp/html5-boilerplate) is a good example – you're supposed to use its `dist` subdirectory as your starting point. You can do this by passing a second argument:
+#### Start from a subdirectory of the repo
+
+For example, with [HTML5 Boilerplate](https://github.com/h5bp/html5-boilerplate) you probably don't want the whole repo, you just want its `dist` folder. Give the required folder name as a second argument:
 
 ```sh
-$ startfrom h5bp/html5-boilerplate dist
+> startfrom h5bp/html5-boilerplate dist
 ```
+
+## TODO
+
+- Add a way to remove unneeded stuff (e.g. `./docs`) before the initial commit
+- Add the git hash (of the commit from the source repo that was started from) to the initial commit message
 
 [boilerplates and starter kits]: https://github.com/melvin0008/awesome-projects-boilerplates
 [screenshot]: screenshot.png
