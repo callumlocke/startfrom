@@ -52,6 +52,10 @@ For example, with [HTML5 Boilerplate](https://github.com/h5bp/html5-boilerplate)
 - Add a way to remove unneeded stuff (e.g. `./docs`) before the initial commit
 - Add the git hash (of the commit from the source repo that was started from) to the initial commit message
 
+## Licence
+
+MIT © [Callum Locke](https://twitter.com/callumlocke)
+
 [boilerplates and starter kits]: https://github.com/melvin0008/awesome-projects-boilerplates
 [screenshot]: screenshot.png
 [HTML5 Boilerplate]: https://github.com/h5bp/html5-boilerplate

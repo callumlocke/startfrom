@@ -48,7 +48,7 @@
     "src/cli",
     "cli.js"
   ],
-  "license": "BSD-3-Clause",
+  "license": "MIT",
   "main": "index.js",
   "repository": "callumlocke/startfrom",
   "scripts": {
