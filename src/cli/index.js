@@ -44,7 +44,6 @@ if (!cli.input[0]) {
   console.log(helpText);
   process.exit(0);
 }
-console.log(ghParse(cli.input[0]));
 
 const dir = process.cwd();
 const {owner, name, branch: ref} = ghParse(cli.input[0]);
