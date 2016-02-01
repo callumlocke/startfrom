@@ -2,7 +2,9 @@
 
 [![NPM version][npm-image]][npm-url] [![Linux Build Status][travis-image]][travis-url] [![Windows Build Status][appveyor-image]][appveyor-url] [![Dependency Status][depstat-image]][depstat-url] [![devDependency Status][devdepstat-image]][devdepstat-url] [![peerDependency Status][peerdepstat-image]][peerdepstat-url]
 
-A little tool to download a snapshot of a Github repo and use it as a starting point for a new project. (Handy if you use a lot of [boilerplates and starter kits].)
+A little tool to download a snapshot of a Github repo and use it as a starting point for a new project.
+
+Intended for people who use [boilerplates and starter kits] frequently.
 
 ![screenshot]
 
@@ -27,13 +29,15 @@ Go into an empty directory, then run startfrom with a GitHub repo identifier.  F
 
 What it does:
 
-1. Downloads a **snapshot** of the specified repo (not including the git history) and extracts it into your current working directory.
-2. Initialises your directory as a new git repo and commits the initial files.
-3. Runs `npm install` for you (if there's a package.json present).
+1. Downloads a snapshot of the specified repo to your current working directory. (Just a snapshot – no git history.)
+2. Does `git init`, `git add .` and `git commit`. (Your startfrom command is used as the commit message.)
+3. If there's a package.json, runs `npm install`.
 
 ## More options
 
-#### Start from a specific branch/tag/commit
+#### Start from a specific branch/tag/commit reference
+
+Use a `#` symbol, for example:
 
 ```sh
 > startfrom mxstbr/react-boilerplate#v2.5.0
@@ -41,7 +45,9 @@ What it does:
 
 #### Start from a subdirectory of the repo
 
-For example, with [HTML5 Boilerplate](https://github.com/h5bp/html5-boilerplate) you probably don't want the whole repo, you just want its `dist` folder. Give the required folder name as a second argument:
+With [HTML5 Boilerplate](https://github.com/h5bp/html5-boilerplate) for example, you don't want the whole source repo, you just want its `dist` folder.
+
+Pass the desired folder name as a second argument:
 
 ```sh
 > startfrom h5bp/html5-boilerplate dist
