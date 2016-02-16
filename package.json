@@ -54,7 +54,7 @@
   "scripts": {
     "build": "rimraf dist && babel src --out-dir dist --source-maps",
     "buildwatch": "rimraf dist && babel src --out-dir dist --watch --source-maps",
-    "prepublish": "eslint . && npm run build",
+    "prepublish": "npm run build",
     "test": "mocha dist/test",
     "testwatch": "cd dist && mocha --watch"
   }
