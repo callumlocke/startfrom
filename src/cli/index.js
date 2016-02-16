@@ -9,7 +9,7 @@ import request from 'request';
 import sander from 'sander';
 import shellEscape from 'shell-escape';
 import spawn from 'cross-spawn';
-import successSymbol from 'success-symbol';
+import {tick} from 'figures';
 import tar from 'tar-fs';
 import updateNotifier from 'update-notifier';
 import {execSync} from 'child_process';
@@ -102,7 +102,7 @@ coroutine(function *() {
       console.log('Please commit your changes then try running this script again.');
       process.exit(1);
     }
-    tick();
+    doTick();
   }
 
   // download whole repo tarball into ./__startfrom_tmp
@@ -137,22 +137,22 @@ coroutine(function *() {
   if (!hasGit) yield run('git', 'init');
   yield run('git', 'add', '.');
   yield run('git', 'commit', '-m', 'startfrom ' + shellEscape(process.argv.slice(2)));
-  tick();
+  doTick();
 
   // run npm install if there's a package.json
   if (yield sander.exists(dir, 'package.json')) {
     say(`Running npm install for you (this might take a while)...`);
     yield run('npm', 'install');
-    tick();
+    doTick();
   }
 
-  console.log('\n\n' + bgGreen.black(` ${successSymbol} ALL DONE! `));
+  console.log('\n\n' + bgGreen.black(` ${tick} ALL DONE! `));
 })();
 
 function say(message) {
   console.log(yellow(`\n\n${message}`));
 }
 
-function tick() {
-  console.log(green(successSymbol));
+function doTick() {
+  console.log(green(tick));
 }
