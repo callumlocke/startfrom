@@ -1,0 +1,11 @@
+root: true
+extends: [xo/esnext]
+rules:
+  babel/no-await-in-loop: 0
+  babel/object-curly-spacing: [2, always]
+  brace-style: [2, stroustrup, {allowSingleLine: false}]
+  comma-dangle: [2, always-multiline]
+  curly: [2, multi-line]
+  default-case: 0
+  no-lone-blocks: 0
+  prefer-template: 0

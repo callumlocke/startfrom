@@ -12,7 +12,7 @@
     "startfrom": "cli.js"
   },
   "dependencies": {
-    "bluebird": "^3.3.1",
+    "bluebird": "^3.3.3",
     "chalk": "^1.1.1",
     "cross-spawn": "^2.1.5",
     "figures": "^1.4.0",
@@ -23,15 +23,15 @@
     "rimraf": "^2.5.2",
     "sander": "^0.4.0",
     "shell-escape": "^0.2.0",
-    "tar-fs": "^1.10.0",
-    "update-notifier": "^0.6.0"
+    "tar-fs": "^1.11.1",
+    "update-notifier": "^0.6.1"
   },
   "devDependencies": {
-    "babel-cli": "^6.5.1",
+    "babel-cli": "^6.6.0",
     "babel-eslint": "^5.0.0",
     "babel-preset-es2015-node4": "^2.0.3",
-    "eslint": "^2.1.0",
-    "eslint-config-trip": "^1.0.1",
+    "eslint": "^2.2.0",
+    "eslint-config-xo": "^0.11.0",
     "eslint-plugin-babel": "^3.1.0",
     "mocha": "^2.4.5",
     "source-map-support": "^0.4.0"
@@ -39,9 +39,6 @@
   "engines": {
     "node": ">=4",
     "npm": ">=2"
-  },
-  "eslintConfig": {
-    "extends": "trip"
   },
   "files": [
     "dist/cli",
@@ -55,7 +52,7 @@
     "build": "rimraf dist && babel src --out-dir dist --source-maps",
     "buildwatch": "rimraf dist && babel src --out-dir dist --watch --source-maps",
     "prepublish": "npm run build",
-    "test": "mocha dist/test",
+    "test": "eslint . && mocha dist/test",
     "testwatch": "cd dist && mocha --watch"
   }
 }
