@@ -37,8 +37,7 @@
     "source-map-support": "^0.4.0"
   },
   "engines": {
-    "node": ">=4",
-    "npm": ">=2"
+    "node": ">=4"
   },
   "files": [
     "dist/cli",

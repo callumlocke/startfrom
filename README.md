@@ -2,9 +2,9 @@
 
 [![NPM version][npm-image]][npm-url] [![Linux Build Status][travis-image]][travis-url] [![Windows Build Status][appveyor-image]][appveyor-url] [![Dependency Status][depstat-image]][depstat-url] [![devDependency Status][devdepstat-image]][devdepstat-url] [![peerDependency Status][peerdepstat-image]][peerdepstat-url]
 
-A little tool to download a snapshot of a Github repo and use it as a starting point for a new project.
+A little tool to download a snapshot of a Github repo and use it as a starting point for a new project. (Like `git clone`, but squashes the history into one commit.)
 
-Intended for people who use [boilerplates and starter kits] frequently.
+Intended for heavy users of [boilerplates and starter kits].
 
 ![screenshot]
 
@@ -18,7 +18,7 @@ Intended for people who use [boilerplates and starter kits] frequently.
 
 ## How to use
 
-Go into an empty directory, then run startfrom with a GitHub repo identifier.  For example:
+Go into an empty directory, then run `startfrom` with a GitHub repo identifier.  For example:
 
 ```sh
 > startfrom google/web-starter-kit
