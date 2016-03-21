@@ -1,10 +1,13 @@
-import _rimraf from 'rimraf';
+import 'babel-polyfill';
+
+import del from 'del';
 import ghParse from 'parse-github-url';
 import gunzipMaybe from 'gunzip-maybe';
+import input from 'input';
 import meow from 'meow';
 import path from 'path';
 import pkg from '../../package.json';
-import Promise, { coroutine, promisify } from 'bluebird';
+import Promise from 'bluebird';
 import request from 'request';
 import sander from 'sander';
 import shellEscape from 'shell-escape';
@@ -12,14 +15,14 @@ import spawn from 'cross-spawn';
 import tar from 'tar-fs';
 import updateNotifier from 'update-notifier';
 import { execSync } from 'child_process';
-import { grey, cyan, red, yellow, green, bgGreen } from 'chalk';
+import { grey, cyan, red, yellow, green, bgWhite } from 'chalk';
 import { tick } from 'figures';
-
-const rimraf = promisify(_rimraf);
 
 const prompt = grey('>');
 
-const helpText = (`
+const help = (`
+		🎬  ${cyan('startfrom')}
+
 		1. Downloads a snapshot of the specified repo to your current
 			 working directory
 		2. Does ${cyan('git init')}, ${cyan('git add .')} and ${cyan('git commit')}
@@ -35,13 +38,20 @@ const helpText = (`
 			${prompt} startfrom google/web-starter-kit#v0.5.4
 			${prompt} startfrom h5bp/html5-boilerplate#v5.0.0 dist
 			${prompt} startfrom https://github.com/mxstbr/react-boilerplate
+
+		Flags:
+			--confirm    Automatically confirm the list of files to include
 `);
 
-const cli = meow(helpText);
+const cli = meow({ help, description: false }, {
+	default: {
+		confirm: false,
+	},
+});
 
 // if no CLI args, do the same as `startfrom --help`
 if (!cli.input[0]) {
-	console.log(helpText);
+	console.log(help);
 	process.exit(0);
 }
 
@@ -72,12 +82,12 @@ function run(...args) {
 }
 
 // begin the async sequence
-coroutine(function *() {
+(async () => {
 	if (!owner || !name) throw new Error(`Invalid: ${cli.input[0]}`);
 
 	console.log('');
 
-	const files = yield sander.readdir(dir);
+	const files = await sander.readdir(dir);
 
 	// the directory must be empty (except for .git and .DS_Store), otherwise we exit
 	if (files.filter(file => file !== '.DS_Store' && file !== '.git').length) {
@@ -106,7 +116,7 @@ coroutine(function *() {
 	}
 
 	// download whole repo tarball into ./__startfrom_tmp
-	yield new Promise((resolve, reject) => {
+	await new Promise((resolve, reject) => {
 		const tarballURL = `https://github.com/${owner}/${name}/archive/${ref}.tar.gz`;
 		say(`Downloading and extracting ${tarballURL}`);
 
@@ -123,30 +133,87 @@ coroutine(function *() {
 		;
 	});
 
+	// decide which files should be kept
+	let keep;
+	{
+		// make a list of choices (root-level files/folders)
+		const tmpDir = path.resolve(dir, '__startfrom_tmp', subdirectory);
+		const choices = await Promise.map(
+			sander.readdir(tmpDir),
+			file => sander.stat(tmpDir, file).then(stat => {
+				const choice = { value: file };
+
+				if (stat.isDirectory()) choice.name = cyan(` ${file}/`);
+				else choice.name = cyan(` ${file}`);
+
+				switch (file.toLowerCase()) {
+					case 'docs':
+					case 'doc':
+					case 'license':
+					case 'license.md':
+					case 'licence':
+					case 'licence.md':
+					case 'readme.md':
+					case 'readme':
+					case 'changelog.md':
+					case 'changelog':
+						choice.checked = false;
+						break;
+					default: choice.checked = true;
+				}
+
+				return choice;
+			})
+		);
+
+		// sort them - unchecked items first, then sort alphabetically
+		choices.sort((a, b) => {
+			if (a.checked && b.checked) {
+				if (a.name > b.name) return 1;
+				if (a.name < b.name) return -1;
+				return 0;
+			}
+			if (a.checked) return 1;
+			return -1;
+		});
+
+		if (cli.flags.confirm) keep = choices.map(choice => choice.value);
+		else {
+			// let the user select the files to keep
+			console.log();
+			keep = await input.checkboxes('Which files and folders do you want?', choices);
+		}
+	}
+
 	// copy over all the contents of the requested subdirectory
-	yield Promise.map(
-		sander.readdir(dir, '__startfrom_tmp', subdirectory),
+	await Promise.each(
+		keep,
 		file => sander.rename(dir, '__startfrom_tmp', subdirectory, file).to(dir, file)
 	);
 
-	// then rimraf the temp dir
-	yield rimraf(path.resolve(dir, '__startfrom_tmp'));
+	// then delete the temp dir
+	await del(path.resolve(dir, '__startfrom_tmp'));
 
 	// commit everything...
 	say(`Committing initial state...`);
-	if (!hasGit) yield run('git', 'init');
-	yield run('git', 'add', '.');
-	yield run('git', 'commit', '-m', 'startfrom ' + shellEscape(process.argv.slice(2)));
+	if (!hasGit) await run('git', 'init');
+	await run('git', 'add', '.');
+	await run('git', 'commit', '-m', 'startfrom ' + shellEscape(process.argv.slice(2)));
 	doTick();
 
 	// run npm install if there's a package.json
-	if (yield sander.exists(dir, 'package.json')) {
+	if (await sander.exists(dir, 'package.json')) {
 		say(`Running npm install for you (this might take a while)...`);
-		yield run('npm', 'install');
+		await run('npm', 'install');
 		doTick();
 	}
 
-	console.log('\n\n' + bgGreen.black(` ${tick} ALL DONE! `));
+	console.log(
+		'\n' +
+		'\n  ' + bgWhite('                         ') +
+		'\n  ' + bgWhite.black(`  🎬  startfrom complete  `) +
+		'\n  ' + bgWhite('                         ') + '\n'
+	);
 })();
 
 function say(message) {
