@@ -5,6 +5,7 @@ import fs from 'fs';
 import path from 'path';
 import del from 'del';
 import spawn from 'cross-spawn';
+import deepEqual from 'deep-eql';
 
 const cliPath = path.resolve(__dirname, '..', '..', 'cli.js');
 const tmpDir = path.resolve(__dirname, '..', '..', 'tmp');
@@ -31,11 +32,7 @@ describe('startfrom', () => {
 		cp.on('close', code => {
 			assert.strictEqual(code, 0, 'should be code 0');
 
-			assert.deepStrictEqual(
-				fs.readdirSync(tmpDir),
-				expectedFiles,
-				'files should be as expected'
-			);
+			assert(deepEqual(fs.readdirSync(tmpDir), expectedFiles), 'files should be as expected');
 
 			done();
 		});
