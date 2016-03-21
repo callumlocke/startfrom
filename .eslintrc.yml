@@ -1,11 +1,14 @@
 root: true
-extends: [xo/esnext]
+parser: babel-eslint
+extends: airbnb/base
 rules:
-  babel/no-await-in-loop: 0
-  babel/object-curly-spacing: [2, always]
   brace-style: [2, stroustrup, {allowSingleLine: false}]
-  comma-dangle: [2, always-multiline]
-  curly: [2, multi-line]
-  default-case: 0
-  no-lone-blocks: 0
+  no-console: 0
   prefer-template: 0
+  func-names: 0
+  prefer-rest-params: 0
+  no-lone-blocks: 0
+  no-use-before-define: 0
+  quotes: 0
+  max-len: 0
+  no-param-reassign: 0

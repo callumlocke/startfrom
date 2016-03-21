@@ -14,27 +14,27 @@ const tmpDir = path.resolve(__dirname, '..', '..', 'tmp');
 const expectedFiles = ['.editorconfig', '.git', '.gitattributes', '.gitignore', '.htaccess', '404.html', 'apple-touch-icon.png', 'browserconfig.xml', 'crossdomain.xml', 'css', 'doc', 'favicon.ico', 'humans.txt', 'img', 'index.html', 'js', 'robots.txt', 'tile-wide.png', 'tile.png'];
 
 describe('startfrom', () => {
-	before(() => {
-		del.sync(tmpDir);
-		fs.mkdirSync(tmpDir);
-	});
+  before(() => {
+    del.sync(tmpDir);
+    fs.mkdirSync(tmpDir);
+  });
 
-	it('can download a specific repo/tag/subfolder combination', function (done) {
-		this.timeout(20000);
+  it('can download a specific repo/tag/subfolder combination', function (done) {
+    this.timeout(20000);
 
-		const cp = spawn(cliPath, ['h5bp/html5-boilerplate#v5.0.0', 'dist', '--confirm'], {
-			stdio: 'inherit',
-			cwd: tmpDir,
-		});
+    const cp = spawn(cliPath, ['h5bp/html5-boilerplate#v5.0.0', 'dist', '--confirm'], {
+      stdio: 'inherit',
+      cwd: tmpDir,
+    });
 
-		cp.on('error', done);
+    cp.on('error', done);
 
-		cp.on('close', code => {
-			assert.strictEqual(code, 0, 'should be code 0');
+    cp.on('close', code => {
+      assert.strictEqual(code, 0, 'should be code 0');
 
-			assert(deepEqual(fs.readdirSync(tmpDir), expectedFiles), 'files should be as expected');
+      assert(deepEqual(fs.readdirSync(tmpDir), expectedFiles), 'files should be as expected');
 
-			done();
-		});
-	});
+      done();
+    });
+  });
 });
