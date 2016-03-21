@@ -3,7 +3,7 @@
 import assert from 'assert';
 import fs from 'fs';
 import path from 'path';
-import rimraf from 'rimraf';
+import del from 'del';
 import spawn from 'cross-spawn';
 
 const cliPath = path.resolve(__dirname, '..', '..', 'cli.js');
@@ -14,7 +14,7 @@ const expectedFiles = ['.editorconfig', '.git', '.gitattributes', '.gitignore', 
 
 describe('startfrom', () => {
 	before(() => {
-		rimraf.sync(tmpDir);
+		del.sync(tmpDir);
 		fs.mkdirSync(tmpDir);
 	});
 
