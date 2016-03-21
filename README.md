@@ -33,6 +33,8 @@ What it does:
 2. Does `git init`, `git add .` and `git commit`. (Your startfrom command is used as the commit message.)
 3. If there's a package.json, runs `npm install`.
 
+It will also ask for confirmation of which files you want to include. By default, things like `README.md` and `CHANGELOG` are deselected, but you can add them if you want them.
+
 ## More options
 
 #### Start from a specific branch/tag/commit reference
@@ -53,14 +55,13 @@ Pass the desired folder name as a second argument:
 > startfrom h5bp/html5-boilerplate dist
 ```
 
-## TODO
+#### Skipping the interactive prompt
 
-- Add a way to remove unneeded stuff (e.g. `./docs`) before the initial commit
-- Add the git hash (of the commit from the source repo that was started from) to the initial commit message
+If you don't want startfrom to prompt you to confirm which files you want, use the `--confirm` flag to auto-confirm it. Might be useful in some CI situations.
 
 ## Licence
 
-MIT © [Callum Locke](https://twitter.com/callumlocke)
+MIT © [Callum Locke](http://callumlocke.com/)
 
 [boilerplates and starter kits]: https://github.com/melvin0008/awesome-projects-boilerplates
 [screenshot]: screenshot.png
