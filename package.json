@@ -1,7 +1,7 @@
 {
   "name": "startfrom",
   "description": "Use any Github repo as a template for a new project.",
-  "version": "1.1.8",
+  "version": "2.0.0",
   "author": "Callum Locke",
   "babel": {
     "presets": [
