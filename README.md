@@ -14,8 +14,6 @@ Intended for heavy users of [boilerplates and starter kits].
 > npm install -g startfrom
 ```
 
-(Requires Node 4 or higher.)
-
 ## How to use
 
 Go into an empty directory, then run `startfrom` with a GitHub repo identifier.  For example:
