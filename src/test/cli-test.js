@@ -21,7 +21,7 @@ describe('startfrom', () => {
 	it('can download a specific repo/tag/subfolder combination', function (done) {
 		this.timeout(20000);
 
-		const cp = spawn(cliPath, ['h5bp/html5-boilerplate#v5.0.0', 'dist'], {
+		const cp = spawn(cliPath, ['h5bp/html5-boilerplate#v5.0.0', 'dist', '--confirm'], {
 			stdio: 'inherit',
 			cwd: tmpDir,
 		});
