@@ -2,9 +2,9 @@
 
 [![NPM version][npm-image]][npm-url] [![Linux Build Status][travis-image]][travis-url] [![Windows Build Status][appveyor-image]][appveyor-url] [![Dependency Status][depstat-image]][depstat-url] [![devDependency Status][devdepstat-image]][devdepstat-url] [![peerDependency Status][peerdepstat-image]][peerdepstat-url]
 
-A little tool to download a snapshot of a Github repo and use it as a starting point for a new project. (Like `git clone`, but squashes the history into one commit.)
+A little tool to download a snapshot of a Github repo and use it as a starting point for a new project.
 
-Intended for heavy users of [boilerplates and starter kits].
+Intended for people who use a lot of [boilerplates and starter kits].
 
 ![screenshot]
 
@@ -25,13 +25,13 @@ Go into an empty directory, then run `startfrom` with a GitHub repo identifier. 
 > startfrom https://github.com/google/web-starter-kit
 ```
 
-What it does:
+## What it does
 
 1. Downloads a snapshot of the specified repo to your current working directory. (Just a snapshot – no git history.)
-2. Does `git init`, `git add .` and `git commit`. (Your startfrom command is used as the commit message.)
+2. Does `git init`, `git add .` and `git commit`. (Your original startfrom command is used as the commit message.)
 3. If there's a package.json, runs `npm install`.
 
-It will also ask for confirmation of which files you want to include. By default, things like `README.md` and `CHANGELOG` are deselected, but you can add them if you want them.
+It will also ask for confirmation of which files you want to include. By default, things like `README.md`, `CHANGELOG` and `docs` are deselected, but you can change the selection if you want.
 
 ## More options
 
@@ -43,11 +43,11 @@ Use a `#` symbol, for example:
 > startfrom mxstbr/react-boilerplate#v2.5.0
 ```
 
-#### Start from a subdirectory of the repo
+#### Start from a subdirectory of a repo
 
-With [HTML5 Boilerplate](https://github.com/h5bp/html5-boilerplate) for example, you don't want the whole source repo, you just want its `dist` folder.
+Sometimes you just want a subdirectory. For example, with [HTML5 Boilerplate](https://github.com/h5bp/html5-boilerplate) you probably just want its `dist` folder.
 
-Pass the desired folder name as a second argument:
+Specify your desired subdirectory as a second argument:
 
 ```sh
 > startfrom h5bp/html5-boilerplate dist
