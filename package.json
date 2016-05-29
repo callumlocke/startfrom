@@ -13,7 +13,7 @@
     "startfrom": "cli.js"
   },
   "dependencies": {
-    "babel-polyfill": "^6.9.0",
+    "babel-polyfill": "^6.9.1",
     "bluebird": "^3.4.0",
     "chalk": "^1.1.3",
     "cross-spawn": "^4.0.0",
