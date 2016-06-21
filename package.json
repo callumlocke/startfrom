@@ -27,7 +27,7 @@
     "sander": "^0.5.1",
     "shell-escape": "^0.2.0",
     "tar-fs": "^1.13.0",
-    "update-notifier": "^0.7.0"
+    "update-notifier": "^1.0.2"
   },
   "devDependencies": {
     "babel-cli": "^6.9.0",
