@@ -24,7 +24,7 @@
     "meow": "^3.7.0",
     "parse-github-url": "^0.3.1",
     "request": "^2.72.0",
-    "sander": "^0.5.1",
+    "sander": "^0.6.0",
     "shell-escape": "^0.2.0",
     "tar-fs": "^1.13.0",
     "update-notifier": "^0.7.0"
