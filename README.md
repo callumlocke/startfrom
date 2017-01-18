@@ -1,6 +1,6 @@
 # 🎬 startfrom
 
-[![NPM version][npm-image]][npm-url] [![Linux Build Status][travis-image]][travis-url] [![Windows Build Status][appveyor-image]][appveyor-url] [![Dependency Status][depstat-image]][depstat-url] [![devDependency Status][devdepstat-image]][devdepstat-url] [![peerDependency Status][peerdepstat-image]][peerdepstat-url]
+[![NPM version][npm-image]][npm-url] [![Linux Build Status][travis-image]][travis-url] [![Windows Build Status][appveyor-image]][appveyor-url]
 
 A little tool to download a snapshot of a Github repo and use it as a starting point for a new project.
 
@@ -65,6 +65,10 @@ MIT © [Callum Locke](http://callumlocke.com/)
 [screenshot]: screenshot.png
 [HTML5 Boilerplate]: https://github.com/h5bp/html5-boilerplate
 [Web Starter Kit]: https://github.com/google/web-starter-kit
+
+---
+
+[![Dependency Status][depstat-image]][depstat-url] [![devDependency Status][devdepstat-image]][devdepstat-url] [![peerDependency Status][peerdepstat-image]][peerdepstat-url]
 
 <!-- badge URLs -->
 [npm-url]: https://npmjs.org/package/startfrom
