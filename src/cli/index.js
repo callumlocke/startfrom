@@ -1,15 +1,13 @@
 import 'babel-polyfill';
-
 import del from 'del';
 import ghParse from 'parse-github-url';
 import gunzipMaybe from 'gunzip-maybe';
 import input from 'input';
 import meow from 'meow';
 import path from 'path';
-import pkg from '../../package.json';
 import Promise from 'bluebird';
 import request from 'request';
-import sander from 'sander';
+import * as sander from 'sander';
 import shellEscape from 'shell-escape';
 import spawn from 'cross-spawn';
 import tar from 'tar-fs';
@@ -17,11 +15,12 @@ import updateNotifier from 'update-notifier';
 import { execSync } from 'child_process';
 import { grey, cyan, red, yellow, green, bgWhite } from 'chalk';
 import { tick } from 'figures';
+import pkg from '../../package.json';
 
 const prompt = grey('>');
 
 const help = (`
-    🎬  ${cyan('startfrom')}
+    🎬  ${cyan('startfrom')} ${grey(`v${pkg.version}`)}
 
     1. Downloads a snapshot of the specified repo to your current
        working directory
@@ -74,7 +73,7 @@ function run(...args) {
 
     child.on('error', reject);
 
-    child.on('close', code => {
+    child.on('close', (code) => {
       if (code === 0) resolve();
       else reject(new Error('Command failed'));
     });
@@ -125,10 +124,11 @@ function run(...args) {
       .pipe(tar.extract(dir, {
         map(header) {
           header.name = '__startfrom_tmp/' + header.name.substring(
-            header.name.indexOf('/') + 1
+            header.name.indexOf('/') + 1,
           );
         },
-      }).on('finish', resolve))
+      })
+      .on('finish', resolve))
       .on('error', reject)
     ;
   });
@@ -140,7 +140,7 @@ function run(...args) {
     const tmpDir = path.resolve(dir, '__startfrom_tmp', subdirectory);
     const choices = await Promise.map(
       sander.readdir(tmpDir),
-      file => sander.stat(tmpDir, file).then(stat => {
+      file => sander.stat(tmpDir, file).then((stat) => {
         const choice = { value: file };
 
         if (stat.isDirectory()) choice.name = cyan(` ${file}/`);
@@ -163,7 +163,7 @@ function run(...args) {
         }
 
         return choice;
-      })
+      }),
     );
 
     // sort them - unchecked items first, then sort alphabetically
@@ -188,7 +188,7 @@ function run(...args) {
   // copy over all the contents of the requested subdirectory
   await Promise.each(
     keep,
-    file => sander.rename(dir, '__startfrom_tmp', subdirectory, file).to(dir, file)
+    file => sander.rename(dir, '__startfrom_tmp', subdirectory, file).to(dir, file),
   );
 
   // then delete the temp dir
@@ -212,7 +212,7 @@ function run(...args) {
     '\n' +
     '\n  ' + bgWhite('                         ') +
     '\n  ' + bgWhite.black(`  🎬  startfrom complete  `) +
-    '\n  ' + bgWhite('                         ') + '\n'
+    '\n  ' + bgWhite('                         ') + '\n',
   );
 })();
 

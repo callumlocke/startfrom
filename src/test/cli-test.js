@@ -1,4 +1,5 @@
 /* global describe, before, it */
+/* eslint-disable import/no-extraneous-dependencies */
 
 import assert from 'assert';
 import fs from 'fs';
@@ -29,7 +30,7 @@ describe('startfrom', () => {
 
     cp.on('error', done);
 
-    cp.on('close', code => {
+    cp.on('close', (code) => {
       assert.strictEqual(code, 0, 'should be code 0');
 
       assert(deepEqual(fs.readdirSync(tmpDir), expectedFiles), 'files should be as expected');
