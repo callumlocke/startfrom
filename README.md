@@ -12,6 +12,9 @@ Intended for people who use a lot of [boilerplates and starter kits].
 
 ```sh
 > npm install -g startfrom
+
+# or, if you prefer yarn:
+> yarn global add startfrom
 ```
 
 ## How to use
@@ -55,7 +58,7 @@ Specify your desired subdirectory as a second argument:
 
 #### Skipping the interactive prompt
 
-If you don't want startfrom to prompt you to confirm which files you want, use the `--confirm` flag to auto-confirm it. Might be useful in some CI situations.
+If you don't want startfrom to prompt you to confirm which files you want, use the `--confirm` flag to auto-confirm it. Useful for automation.
 
 ## Licence
 
